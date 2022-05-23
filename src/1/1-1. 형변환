@@ -1,3 +1,6 @@
+/**
+    형변환 연습하기
+ */
 
 public class Sample {
     public static void main(String[] args) {

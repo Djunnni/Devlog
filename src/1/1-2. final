@@ -1,0 +1,21 @@
+/**
+ * List.of를 통해서 만들경우, 수정이 불가능한 리스트를 만들 수 있다.
+ * final 변수에는 재선언은 불가
+ */
+ 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Sample {
+    public static void main(String[] args) {
+        // final ArrayList<String> arr = new ArrayList<>(Arrays.asList("a","b","c"));
+        // arr = new ArrayList<>(Arrays.asList("e","f"));
+        try {
+            final List<String> arr = List.of("a", "b", "c");
+            arr.add("d");
+        } catch(Exception ex) {
+            System.out.println(ex instanceof UnsupportedOperationException); // 지원하지 않는 오류
+        }
+    }
+}
