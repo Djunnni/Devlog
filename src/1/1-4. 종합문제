@@ -1,0 +1,337 @@
+// Q1
+//public class Sample {
+//    public static void main(String[] args) {
+//        String d = "a:b:c:d";
+//        String[] arr = d.split(":");
+//        System.out.println(String.join("#", arr));
+//    }
+//}
+
+//Q2
+//import java.util.HashMap;
+//
+//public class Sample {
+//    public static void main(String[] args)  {
+//        HashMap<String, Integer> a = new HashMap<>();
+//        a.put("A", 90);
+//        a.put("B", 80);
+//        System.out.println(a.getOrDefault("C", null));  // null 출력
+//    }
+//}
+
+//Q3
+//import java.util.Arrays;
+//public class Sample {
+//    public static void main(String[] args) {
+//        int[] A = {20, 55, 67, 82, 45, 33, 90, 87, 100, 25};
+//        int result = Arrays.stream(A).filter(x -> x > 50).sum();
+//
+//        System.out.println(result);
+//    }
+//}
+
+//Q4
+//public class Sample {
+//    static int fibo(int n) {
+//        if(n == 0) {
+//            return 0;
+//        } else if(n == 1) {
+//            return 1;
+//        } else {
+//            return fibo(n -1) + fibo(n -2);
+//        }
+//    }
+//
+//    public static void main(String[] args) {
+//        System.out.println(fibo(5));
+//    }
+//}
+
+//Q5
+//import java.util.Scanner;
+//public class Sample {
+//
+//    public static void main(String[] args) {
+//        System.out.print("구구단을 출력할 숫자를 입력하세요(2~9): ");
+//        Scanner sc = new Scanner(System.in);
+//        int v = sc.nextInt();
+//        for(int i = 1; i < 10; i++) {
+//            System.out.printf("%d ", v * i);
+//        }
+//    }
+//}
+
+//Q6
+//import java.util.Arrays;
+//import java.util.Scanner;
+//public class Sample {
+//
+//    public static void main(String[] args) {
+//        Scanner sc = new Scanner(System.in);
+//        String str = sc.nextLine();
+//        String[] arr = str.split(",");
+//
+//        int result = Arrays.stream(arr).mapToInt(Integer::parseInt).sum();
+//        System.out.println(result);
+//    }
+//}
+
+//Q9
+//import java.util.Arrays;
+//class Calculator {
+//    int[] data;
+//    Calculator(int[] arr) {
+//        data = arr;
+//    }
+//    int sum() {
+////        int sum = 0;
+////        for(int i : data) {
+////            sum += i;
+////        }
+////        return sum;
+//        // case 2
+//        return Arrays.stream(data).sum();
+//    }
+//
+//    Double avg() {
+////        int sum = 0;
+////        for(int i : data) {
+////            sum += i;
+////        }
+////        return sum / data.length;
+//        // case 2
+//        return Arrays.stream(data).average().getAsDouble();
+//    }
+//}
+//public class Sample {
+//    public static void main(String[] args) {
+//        int[] data1 = {1,2,3,4,5};
+//        Calculator cal1 = new Calculator(data1);
+//        System.out.println(cal1.sum()); // 15 출력
+//        System.out.println(cal1.avg()); // 3.0 출력
+//
+//        int[] data2 = {6,7,8,9,10};
+//        Calculator cal2 = new Calculator(data2);
+//        System.out.println(cal2.sum()); // 40 출력
+//        System.out.println(cal2.avg()); // 8.0 출력
+//    }
+//}
+
+// Q10
+//import java.util.Random;
+//
+//class OddException extends Exception {
+//}
+//
+//public class Sample {
+//    static void execute(int n) throws OddException {
+//        System.out.printf("입력 숫자: %d\n", n);
+//        if (n % 2 == 1) {  // 홀수이면 OddException이 발생한다.
+//            throw new OddException();
+//        }
+//        System.out.println("짝수입니다.");
+//    }
+//
+//    public static void main(String[] args) {
+//        Random r = new Random();
+//
+//        for (int i = 0; i < 10; i++) {
+//            try {
+//                execute(r.nextInt(10));
+//            } catch(OddException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
+//}
+
+//Q11
+//
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.Scanner;
+//
+//public class Sample {
+//    //입력 예시: 4546793
+//    //출력 예시: 454*67-9-3
+//    static String parse(String str) {
+//        int[] arr = Arrays.stream(str.split("")).mapToInt(Integer::parseInt).toArray();
+//        ArrayList<String> resultList = new ArrayList<>();
+//
+//        for(int i=0; i< arr.length; i++) {
+//            resultList.add("" + arr[i]);
+//            if(i < arr.length  - 1) {
+//                boolean isOdd = arr[i] % 2 ==  1;
+//                boolean  isNextOdd = arr[i+1] % 2 == 1;
+//                if(isOdd && isNextOdd) {
+//                    resultList.add("-");
+//                } else if(!isOdd && !isNextOdd) {
+//                    resultList.add("*");
+//                }
+//            }
+//        }
+//        return String.join("", resultList);
+//    }
+//
+//    static public void main(String[] args) {
+//        Scanner sc = new Scanner(System.in);
+//        String str  =  sc.nextLine();
+//        System.out.println(parse(str));
+//    }
+//}
+
+//Q12
+//입력 예시: aaabbcccccca
+//출력 예시: a3b2c6a1
+//public class Sample {
+//
+//    static String parse(String data)  {
+//        String _c = "";
+//        String result = "";
+//        int count = 0;
+//
+//        for(String str : data.split("")) {
+//            if(!_c.equals(str)) {
+//                _c = str;
+//
+//                if(count > 0) {
+//                    result += "" + count;
+//                }
+//                result += _c;
+//                count = 1;
+//            } else {
+//                count++;
+//            }
+//        }
+//        if(count > 0) {
+//            result += "" + count;
+//        }
+//
+//        return result;
+//    }
+//
+//    static public void main(String[] args) {
+//        String input = "aaabbcccccca";
+//        String result = parse(input);
+//        System.out.println(result);
+//    }
+//}
+
+//Q13
+//public class Sample {
+//    static boolean solution(String data) {
+//        ArrayList<String> result = new ArrayList<>();
+//
+//        for(String d : data.split("")) {
+//            if(result.contains(d)) {
+//                return false;
+//            } else {
+//                result.add(d);
+//            }
+//        }
+//
+//        return result.size() == 10;
+//    }
+//
+//    static boolean checkDuplicate(String data) {
+//        boolean result = true;
+//        HashSet<String> Set = new HashSet<>(Arrays.asList(data.split("")));
+//
+//        if(Set.size() < 10) {
+//            result = false;
+//        }
+//        for(String d : data.split("")) {
+//           if(Set.contains(d)) {
+//               Set.remove(d);
+//           } else {
+//               result = false;
+//           }
+//        }
+//
+//
+//        return result;
+//    }
+//    static public void main(String[] args) {
+//        String str = "0123456789 01234 01234567890 6789012345 012322456789";
+//        for(String data : str.split(" ")) {
+//            System.out.print(checkDuplicate(data) + " ");
+//        }
+//    }
+//}
+
+//Q14
+// public class Sample {
+//     static String decode(HashMap<String, String> dictionary, String str) {
+//         // 글자와 글자 사이는 1, 단어 사이 공백은 2
+//         ArrayList<String> resultList = new ArrayList<>();
+//
+//         for(String word : str.split("  ")) {
+//
+//            for(String c : word.split(" ")) {
+//                resultList.add(dictionary.get(c));
+//            }
+//            resultList.add(" ");
+//         }
+//
+//         return String.join("", resultList);
+//     }
+//    static public void main(String[] args) {
+//        HashMap<String, String> dictionary = new HashMap<>() {{
+//            put(".-", "A");
+//            put("-...", "B");
+//            put("-.-.", "C");
+//            put("-..", "D");
+//            put(".", "E");
+//            put("..-.", "F");
+//            put("--.", "G");
+//            put("....", "H");
+//            put("..", "I");
+//            put(".---", "J");
+//            put("-.-", "K");
+//            put(".-..", "L");
+//            put("--", "M");
+//            put("-.", "N");
+//            put("---", "O");
+//            put(".--.", "P");
+//            put("--.-", "Q");
+//            put(".-.", "R");
+//            put("...", "S");
+//            put("-", "T");
+//            put("..-", "U");
+//            put("...-", "V");
+//            put(".--", "W");
+//            put("-..-", "X");
+//            put("-.--", "Y");
+//            put("--..", "Z");
+//        }};
+//
+//        String result = decode(dictionary, ".... .  ... .-.. . . .--. ...  . .- .-. .-.. -.--");
+//        System.out.println(result);
+//    }
+//}
+
+//Q15
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Sample {
+    static String caesar(String data, int N) {
+        String result = "";
+        String dic = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for(String w : data.split("")) {
+            int pos = dic.indexOf(w);
+            int newPos = pos + N;
+            newPos = newPos % dic.length();
+            result += dic.substring(newPos, newPos + 1);
+        }
+        return result;
+    }
+    static public void main(String[] args) {
+        int N = 3;
+        String str = "XYZ";
+        String result = caesar(str, N);
+        System.out.println(result);
+    }
+}
