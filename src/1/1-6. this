@@ -1,0 +1,32 @@
+// 자신의 메모리를 가리킨다.
+// 생성자에서 다른생성자를 호출할 수 있디.
+// 자신의 주를 반환.
+
+package chapter6;
+
+class Person {
+    String name;
+    int age;
+
+    public Person() {
+        // 앞에 어떠한 변수 선언도 올 수 없다.
+        // 다른 initalize가 된 다음에 statement를 써야한다.
+        this("이름없음", 1);
+    }
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public Person returnSelf() {
+        return this;
+    }
+}
+public class CallAnotherCount {
+    public static void main(String[] args) {
+        Person p1 = new Person();
+        System.out.println(p1.age);
+        System.out.println(p1.name);
+        System.out.println(p1.equals(p1.returnSelf()));
+    }
+}
