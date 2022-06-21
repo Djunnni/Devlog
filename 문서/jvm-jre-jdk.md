@@ -52,3 +52,10 @@ native 키워드를 사용한 메소드 호출
 
 네이티브 메소드 라이브러리
 C, C++로 작성된 라이브러리.
+
+
+참고
+[https://dzone.com/articles/jvm-architecture-explained](https://dzone.com/articles/jvm-architecture-explained)
+[https://howtodoinjava.com/java/basics/jdk-jre-jvm/](https://howtodoinjava.com/java/basics/jdk-jre-jvm/)
+[https://aboullaite.me/understanding-jit-compiler-just-in-time-compiler/](https://aboullaite.me/understanding-jit-compiler-just-in-time-compiler/)
+
