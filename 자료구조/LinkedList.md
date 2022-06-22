@@ -152,7 +152,17 @@ public class LinkedList<E> implements List<E> {
         return tail.data;
     }
 }
-public Iterator<E> iterator() {
-    return new IteratorHelper();
-}
 ```
+
+#### 이중 연결 리스트
+
+Node상에 prev를 두어 연결하기.
+장점은 Node삭제시 상수시간이 걸린다.
+
+#### 원형 연결 리스트
+
+원형인지 확인은 어떻게 하는게 좋을까?
+
+1. tail의 Next가 head인지 인지한다 O(1)
+2. head부터 시작해 next가 null이 아닌지 또는 다시 head로 돌아오는지 O(n)
+3. 두개의 임시 포인터를 두어 시작점을 잡고 currentSize만큼 돌고 다시 포인터를 이동하는 방법 O(n ^ 2)
