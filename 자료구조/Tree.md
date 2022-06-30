@@ -35,7 +35,7 @@
 ### 회전
 Balance가 맞지 않을 때, O(logn) or O(N)이 될 수 있다.
 
-
+![tree-rotation](../img/tree-rotation.png)
 ```java
 public class Tree<E> {
     public class Node<E> {
@@ -122,6 +122,26 @@ public class Tree<E> {
             currentNode = currentNode.left;
         }
         return currentNode;
+    }
+    public Node<E> leftRotate(Node<E> node) {
+        Node<E> tmp = node.right;
+        node.right = tmp.left;
+        tmp.left = node;
+        return tmp;
+    }
+    public Node<E> rightRotate(Node<E> node) {
+        Node<E> tmp = node.left;
+        node.left = tmp.right;
+        tmp.right = node;
+        return tmp;
+    }
+    public Node<E> rightLeftRotate(Node<E> node) {
+        node.right = rightRotate(node.right);
+        return leftRotate(node);
+    }
+    public Node<E> leftRightRotate(Node<E> node) {
+        node.left = leftRotate(node.left);
+        return rightRotate(node);
     }
 }
 
