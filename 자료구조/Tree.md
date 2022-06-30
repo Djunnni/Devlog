@@ -32,15 +32,97 @@
 #### 너비 우선 탐색
 레벨순으로 트리 노드에 넘버를 붙인다.
 
+### 회전
+Balance가 맞지 않을 때, O(logn) or O(N)이 될 수 있다.
+
+
 ```java
+public class Tree<E> {
+    public class Node<E> {
+        E data;
+        Node<E> left, right;
 
-public class Node<E> {
-    E data;
-    Node<E> left, right;
+        public Node(E obj) {
+            this.data = obj;
+            left = right = null;
+        }
+    }
+    int currentSize;
+    Node<E> root;
+    
+    public void add(E obj) {
+        if(root == null) {
+            root = new Node<E>(obj);
+        } else {
+            add(obj, root);
+        }
+        currentSize++;
+    }
+    private void add(E obj, Node<E> node) {
+        // 정책을 정할 때, 다른 함수에서도 유지해라.
+        if(((Comparable<E>) obj).compareTo(node.data) > 0) {
+            // go to right
+            if(node.right == null) {
+                node.right = new Node<E>(obj);
+                return;
+            } else {
+                return add(obj, node.right);
+            }
+        } 
 
-    public Node(E obj) {
-        this.data = obj;
-        left = right = null;
+        if(node.left == null) {
+            node.left = new Node<E>(obj);
+            return;
+        }
+        return add(obj, node.left);
+    }
+    public boolean contains(E obj) {
+        return contains(obj, root);
+    }
+    private boolean contains(E obj, Node<E> node) {
+        if(node == null) {
+            return false;
+        }
+        int compare = ((Comparable<E>) obj).compareTo(node.data);
+        if(compare == 0) {
+            return true;
+        } else if(compare > 0) {
+            return contains(obj, node.right);
+        }
+
+        return contains(obj, node.left);
+    }
+    public Node<E> remove(E obj) {
+        return remove(obj, root);
+    }
+    private Node<E> remove(E obj, Node<E> node) {
+        if(node == null) {
+            return node;
+        }
+        if(((Comparable<E>)obj).compareTo(node.data) < 0) {
+            node.left = remove(obj, node.left);
+        } else if(((Comparable<E>)obj).compareTo(node.data) > 0) {
+            node.right = remove(obj, node.right);
+        } else {
+            if(node.left == null) {
+                return node.right;
+            } else if(node.right == null) {
+                return node.left;
+            }
+
+            Node temp = minValueNode(node.right);
+            node.data = temp.data;
+            node.right = remove(temp.data, node.right);
+        }
+        return node;
+    }
+    public Node<E> minValueNode(Node<E> node) {
+        Node<E> currentNode = node;
+        while(currentNode.left != null) {
+            currentNode = currentNode.left;
+        }
+        return currentNode;
     }
 }
+
 ```
