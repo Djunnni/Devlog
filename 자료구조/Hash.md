@@ -1,3 +1,5 @@
+### Hash
+
 ```java
 
 import java.util.LinkedList;
