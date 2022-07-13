@@ -85,3 +85,64 @@ public void incInsertSort(int[] arr, int start, int end, int gap) {
     }
 }
 ```
+
+### 합병 정렬(Merge Sort)
+
+```
+package site.djunnni;
+
+public class MergeSort {
+	public static void main(String[] args) {
+		int arr[] = { 5,6,1,3,11,26,15,13,999, 8475, 9 };
+		int[] temp = new int[arr.length];
+		System.out.println("Before:");
+		for(int v : arr) {
+			System.out.print(v + " ");
+		}
+		
+		mergeSort(arr, temp, 0, arr.length - 1);
+		
+		System.out.println("\nAfter:");
+		for(int v : arr) {
+			System.out.print(v + " ");
+		}
+		
+	}
+	public static void mergeSort(int[] arr, int[] temp, int start, int end) {
+		split(arr, temp, start, end);
+	}
+	public static void split(int[] arr, int[] temp, int start, int end) {
+		if(start == end) {
+			return;
+		}
+		int mid = (start + end) / 2;
+		split(arr, temp, start, mid);
+		split(arr, temp, mid + 1, end);
+		merge(arr, temp, start, mid, end);
+	}
+	public static void merge(int[] arr, int[] temp, int start, int mid, int end) {
+		int s = start, m = mid + 1, spot = start;
+		
+		while(s <= mid && m <= end) {
+			if(arr[s] > arr[m]) {
+				temp[spot++] = arr[m++];
+			} else {
+				temp[spot++] = arr[s++];
+			}
+		}
+		
+		while(s <= mid) {
+			temp[spot++] = arr[s++];
+		}
+		
+		while(m <= end) {
+			temp[spot++] = arr[m++];
+		}
+		
+		for(spot = start; spot <= end; spot++) {
+			arr[spot] = temp[spot];
+		}
+	}
+}
+
+```
