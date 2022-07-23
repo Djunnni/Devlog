@@ -128,3 +128,52 @@ public void merge(int start, int mid, int end) {
     }
 }
 ```
+
+### 퀵 정렬(Quick Sort)
+
+java sort, c, c++, python에서 주로 쓰는 정렬
+
+O(nlogn) 이지만 최악의 경우엔 O(n^2)가 나온다.
+
+not stable, in place
+
+```java
+public class QuickSort<E> {
+    E[] array;
+    public E[] sort(E[] array) {
+        this.array = array;
+        quickSort(0, array.length - 1);
+        return array;
+    }
+    public void swap(int i, int j) {
+        E temp = array[i];
+        array[i] = array[j];
+        array[j] = temp; 
+    }
+    public void quickSort(from, to) {
+        if(from >= to) return;
+        E value = array[to];
+        int counter = from;
+        for(int i = from; i < to; i++) {
+            if(((Comparable<E>) array[i]).compareTo(value) <= 0) {
+                swap(i, counter);
+                counter++;
+            }
+        }
+        swap(counter, to);
+        quickSort(from, counter - 1);
+        quickSort(counter + 1, to);
+    }
+}
+```
+
+### 기수 정렬(Radix Sort)
+
+O(n)으로 복잡도로는 빠르나 계속 배열을 카피하는 과정에서 매우 느림.
+
+stable ,out place(not in place)
+
+
+### 힙 정렬(Heap Sort)
+
+O(nlogn)이며 not stable, in place다. ./Heap.md 참고
