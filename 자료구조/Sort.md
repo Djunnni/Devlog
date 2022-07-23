@@ -13,7 +13,10 @@ unstable sort : 중복된 숫자의 순서를 보장할 수 없다.
 복잡도(최선, 최악, 평균)
 (n-1) + (n-2) + (n-3) + ... + 1 => n(n - 1) / 2 = O(n^2)
 
-in place sort에 속한다.
+unstable, in place sort에 속한다.
+
+만약 b(1), b(2), a, c 가 있다고 하면 a가 최소이므로 b(1)과 자리를 교체 
+a, b(2), b(1), c가 됨. 따라서 unstable
 
 ```java
 public void selectSort(int[] arr) {
@@ -82,6 +85,46 @@ public void incInsertSort(int[] arr, int start, int end, int gap) {
             list[j + gap] = list[j];
         }
         list[j+gap] = key;
+    }
+}
+```
+
+### 합병 정렬(Merge Sort)
+
+O(nlogn)
+
+stable, not in place
+
+```java
+public void MergeSort(int[] arr) {
+    this.array = arr;
+    this.temp = new int[arr.length];
+    split(0, arr.length - 1);
+}
+
+public void split(int start, int end) {
+    if(start >= end) { return; }
+    int mid = (start + end) / 2;
+    split(start, mid);
+    split(mid + 1, end);
+    merge(start, mid, end);
+}
+
+public void merge(int start, int mid, int end) {
+    int i = start; int j = mid + 1; int temppoint = start;
+    while(i <= mid && j <= end) {
+        if(array[i] < array[j]) {
+            temp[temppoint++] = array[i++];
+        } else {
+            temp[temppoint++] = array[j++];
+        }
+    }
+
+    while(i <= mid) temp[temppoint++] = array[i++];
+    while(j <= end) temp[temppoint++] = array[j++];
+
+    for(temppoint = start; temppoint <= end; temppoint++) {
+        array[temppoint] = temp[temppoint];
     }
 }
 ```
