@@ -1,0 +1,103 @@
+### 02.생성자에 매개변수가 많다면 빌더를 고려하라
+
+정적 팩터리와 생성자 모두 좋은 방식이다. 다만 매개변수가 많아짐에 따라 코드의 길이도 방대해진다.
+
+이경우 어떻게 할 수 있을까?
+
+1. 점층적 생성자 패턴을 이용한다.
+
+=> 크기가 커짐에 따라 클라이언트는 코드를 작성, 읽는데 힘이 든다.
+
+2. 자바 빈 패턴
+
+=> 깔끔해진다. 다만 여러 메서드를 통해 멤버변수를 정의해줘야 함으로 객체가 완전히 생성되기 전까진 Consistency(일관성)이 깨진다.
+스레드의 안전성에 따라서 원인규명이 어려울 수 있으니 조심해라.
+
+3.  ** 빌더패턴 ** 
+
+빌더패턴은 예시부터 보자.
+
+```java
+new Pizza().addSource().addTopping(HAM).addTopping(CHEEZE).build() // Pizza 객체 생성
+```
+선택적 매개변수를 흉내내서 제작되었으며, 계층적으로 설계된 클래스와 함께 쓰기 좋다.
+
+```java
+
+public abstract class Pizza {
+    public enum Topping { HAM, MUSHROOM, ONION, PEPPER, SAUSAGE };
+    final Set<Topping> toppings;
+
+    abstract static class Builder<T extends Builder<T>> {
+        EnumSet<Topping> toppings = EnumSet.noneof(Topping.class);
+        
+        public T addTopping(Topping topping) {
+            toppings.add(Objects.requireNonNull(topping));
+            return self();
+        }
+        abstract Pizza build();
+        protected abstract T self();
+    }
+    Pizza(Builder<?> builder) {
+        toppings = builder.toppings.clone();
+    }
+}
+
+public class NyPizza extends Pizza {
+    public enum Size { SMALL, MEDIUM, LARGE };
+    private final Size size;
+
+    public static class Builder extends Pizza.Builder<Builder> {
+        private final Size size;
+        public Builder(Size size) {
+            this.size = Objects.requireNonNull(size);
+        }
+
+        @Override
+        public NyPizza build() {
+            return new NyPizza(this);
+        }
+
+        @Override
+        protected Builder self() { return this; }
+    }
+
+    private NyPizza(Builder builder) {
+        super(builder);
+        size = builder.size;
+    }
+}
+
+public class Calzone extends Pizza {
+    private final boolean sauceInside;
+
+    public static class Builder extends Pizza.Builder<Builder> {
+        private boolean sauceInside = false;
+
+        public Builder() {}
+        public Builder sauceInside() {
+            sauceInside = true;
+            return this;
+        }
+        @Override
+        public Calzone builde() {
+            return new Calzone(this);
+        }
+        @Override
+        protected Builder self() { return this; }
+    }
+    private Calzone(Builder builder) {
+        super(builder);
+        sauceInside = builder.sauceInside;
+    }
+}
+```
+
+
+##### 단점
+
+빌더 생성비용이 크지 않으나 성능에 민감할 경우 문제가 될 수 있다. 점층적 생성자 패턴보다는 코드가 장황해 매개변수는 4개 이상이 되야 값어치를 한다.
+
+하지만 API는 시간이 지날수록 매개변수가 많아지는 경향이 있다. 중간에 빌더 패턴으로 변경할 수 있지만 이전에 만들어둔 생성자나 정적팩터리가 아주 도드라져 보인다.
+
+애초에 빌더로 시작하는 편이 나을 수 있다.
