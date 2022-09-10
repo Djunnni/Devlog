@@ -98,3 +98,5 @@ Item not exist
 3 Seconds
 ```
                    
+[토론해보면 좋을 점]
+* lazy evaluation은 항상 좋을까?
