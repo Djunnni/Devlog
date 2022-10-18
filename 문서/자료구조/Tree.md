@@ -12,7 +12,7 @@
 
 순회를 돌 때, 서브트리를 생각하면서 돌면 쉽다.
 
-![tree-traversal](../img/tree-traversal.png)
+![tree-traversal](./img/tree-traversal.png)
 
 #### 깊이 우선 탐색
 재귀를 이용해 푸는 경우가 많음
@@ -35,7 +35,7 @@
 ### 회전
 Balance가 맞지 않을 때, O(logn) or O(N)이 될 수 있다.
 
-![tree-rotation](../img/tree-rotation.png)
+![tree-rotation](./img/tree-rotation.png)
 ```java
 public class Tree<E> {
     public class Node<E> {
