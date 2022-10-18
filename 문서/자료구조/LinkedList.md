@@ -21,7 +21,7 @@ LinkedList의 크기는 2가지 방법으로 확인 가능하다.
 #### 단방향 LinkedList
 
 ```java
-public class LinkedList<E> {
+public class LinkedList<E> implements Iterable<E> { // Iterable 구현으로 foreach 지원
     class Node<E> {
         E data;
         Node<E> next;
@@ -140,13 +140,193 @@ public class LinkedList<E> {
         }
         return tail.data;
     }
+    
+    // Iterator 구현
+    public Iterator<E> iterator() {
+        return new IteratorHelper();
+    }
+
+    class IteratorHelper implements Iterator<E> {
+
+        private Node<E> index;
+        public IteratorHelper() {
+            index = head;
+        }
+        @Override
+        public boolean hasNext() {
+            return index != null;
+        }
+
+        @Override
+        public E next() {
+            if(!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            E data = index.data;
+            index = index.next;
+            return data;
+        }
+    }
 }
 ```
 
 #### 이중 연결 리스트
 
 Node상에 prev를 두어 연결하기.
-장점은 Node삭제시 상수시간이 걸린다.
+- 장점
+    - Node last 삭제시 O(1) 이다.
+
+- 단점
+    - 구현 복잡
+
+```java
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class DoubleLinkedList<E> implements Iterable<E> {
+    class Node<E> {
+        E data;
+        Node<E> prev;
+        Node<E> next;
+
+        Node(E obj) {
+            data = obj;
+            prev = null;
+            next = null;
+        }
+    }
+
+    private Node<E> head;
+    private Node<E> tail;
+    private int currentSize;
+
+    DoubleLinkedList() {
+        head = null;
+        tail = null;
+        currentSize = 0;
+    }
+
+    public void addFirst(E obj) {
+        Node<E> node = new Node<>(obj);
+        if(head == null) {
+            head = tail = node;
+            currentSize++;
+            return;
+        }
+        head.prev = node;
+        node.next = head;
+        head = node;
+        currentSize++;
+    }
+    public void addLast(E obj) {
+        Node<E> node = new Node<>(obj);
+        if(head == null) {
+            addFirst(obj);
+            return;
+        }
+        tail.next = node;
+        node.prev = tail;
+        tail = node;
+        currentSize++;
+    }
+    public E removeFirst() {
+        if(head == null) {
+            return null;
+        }
+        E obj = head.data;
+        if(head == tail) {
+            head = tail = null;
+        } else {
+            head = head.next;
+            head.prev = null;
+        }
+        currentSize--;
+        return obj;
+    }
+    public E removeLast() {
+        if(head == null) {
+            return null;
+        }
+        E obj = tail.data;
+        if(tail == head) {
+            return removeFirst();
+        } else {
+            tail = tail.prev;
+            tail.next = null;
+        }
+        currentSize--;
+        return obj;
+    }
+    public E remove(E obj) {
+        Node<E> current = head;
+        while(current != null) {
+            if(((Comparable<E>) obj).compareTo(current.data) == 0) {
+                if(current == head) {
+                    return removeFirst();
+                }
+                if(current == tail) { // 중간 계산의 경우 first, last 처리를 신경쓰자.
+                    return removeLast();
+                }
+                current.prev.next = current.next;
+                current.next.prev = current.prev;
+                currentSize--;
+                return current.data;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+    public boolean contains(E obj) {
+        Node<E> current = head;
+        while(current != null) {
+            if(((Comparable<E>) obj).compareTo(current.data) == 0) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+    public E peekFirst() {
+        if(head == null) {
+            return null;
+        }
+        return head.data;
+    }
+    public E peekLast() {
+        if(head == null) {
+            return null;
+        }
+        return tail.data;
+    }
+
+    public Iterator<E> iterator() {
+        return new IteratorHelper();
+    }
+
+    class IteratorHelper implements Iterator<E> {
+
+        Node<E> index;
+
+        IteratorHelper() {
+            index = head;
+        }
+        @Override
+        public boolean hasNext() {
+            return index != null;
+        }
+
+        @Override
+        public E next() {
+            if(!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            E data = index.data;
+            index = index.next;
+            return data;
+        }
+    }
+}
+```
 
 #### 원형 연결 리스트
 
