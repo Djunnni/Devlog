@@ -1,4 +1,4 @@
-### LinkedList
+## LinkedList
 
 링크드 리스트는 배열과 다르게 추가될 요소들의 크기만큼만 추가, 제거가 된다.
 
@@ -18,20 +18,10 @@ LinkedList의 크기는 2가지 방법으로 확인 가능하다.
 1. 매번 전체 길이를 알고 싶을 때, head에서부터 tail까지 길이를 재는 O(n) 방법.
 2. 추가/제거 될 시점에 count를 세는 방법 O(1)
 
-#### 경계조건(Boundary Conditions)
-
-어떤 자료구조든 고려해야할 경계조건이 있다.
-
-1. 자료구조가 비어있을 때,
-2. 자료구조에 하나의 요소가 들어있을 때,
-3. 자료구조의 첫 번째 요소를 제거/추가할 때,
-4. 자료구조의 마지막 요소를 제거/추가할 때,
-5. 자료구조의 중간을 처리할 때,
-
-#### LinkedList 코드
+#### 단방향 LinkedList
 
 ```java
-public class LinkedList<E> implements List<E> {
+public class LinkedList<E> {
     class Node<E> {
         E data;
         Node<E> next;
@@ -52,11 +42,10 @@ public class LinkedList<E> implements List<E> {
         currentSize = 0;
     }
 
-    public void addFirst(E obj) {
-        Node<E> node = new Node<E>(obj);
+    public void addFirst(E obj) { // O(1)
+        Node<E> node = new Node<>(obj);
         if(head == null) {
-            node.next = head = tail;
-            head = node;
+            head = tail = node;
             currentSize++;
             return;
         }
@@ -64,10 +53,9 @@ public class LinkedList<E> implements List<E> {
         head = node;
         currentSize++;
     }
-
-    public void addLast(E obj) {
-        Node<E> node = new Node<E>(obj);
-        if(head == null) {
+    public void addLast(E obj) { // O(1) : tail이 있을 때, O(n): tail이 없을 때,
+        Node<E> node = new Node<>(obj);
+        if(head == null) { // 경계조건 1: 자료구조가 비어있을 때,
             head = tail = node;
             currentSize++;
             return;
@@ -77,34 +65,35 @@ public class LinkedList<E> implements List<E> {
         currentSize++;
     }
     public E removeFirst() {
-        if(head == null) { // 경계조건 1번
+        if(head == null) { // 경계조건 1: 자료구조가 비어있을 때,
             return null;
         }
-        E tmp = head.data;
-        if(head == tail) { // 경계조건 2번
+        E obj = head.data;
+        if(head == tail) { // 경계조건 2: 하나의 요소가 들어있을 때,
             head = tail = null;
-        } else {
+        } else {    // 나머지
             head = head.next;
         }
         currentSize--;
-        return tmp;
+        return obj;
     }
     public E removeLast() {
-        if(head == null) {
+        if(head == null) {  // 경계조건 1: 자료구조가 비어있을 때,
             return null;
         }
-        if(head == tail) {
+        if(head == tail) { // 경계조건 2: 하나의 요소가 들어있을 때,
             return removeFirst();
         }
+        // 나머지
         Node<E> current = head;
         Node<E> previous = null;
 
-        while(current != tail) {
+        while(current.next != null) {
             previous = current;
             current = current.next;
         }
         tail = previous;
-        previous.next = null;
+        tail.next = null;
         currentSize--;
 
         return current.data;
@@ -112,18 +101,18 @@ public class LinkedList<E> implements List<E> {
     public E remove(E obj) {
         Node<E> previous = null, current = head;
 
-        while(current != null) { // 경계 조건 1
-            if(((Comparable<E>) obj).compareTo(current.data) == 0) {
-                if(current == head) { // 경계조건 2, 경계조건 3
-                    return removeFirst();
-                }
-                if(current == tail) { // 경계조건 4
-                    return removeLast();
-                }
-                currentSize--;  // 경계조건 5
-                previous.next = current.next;
-                return current.data;
+        while(current != null) { // 경계조건 1: 자료구조가 비어있을 때,
+         if(((Comparable<E>) obj).compareTo(current.data) == 0) {
+            if(current == head) { // 경계조건 2,3: 하나의 요소가 들어있을 때, 첫번째요소
+                return removeFirst();
             }
+            if(current == tail) { // 경계조건 4: 마지막 요소를 제거할 때,
+                return removeLast();
+            }
+            currentSize--; // 경계조건 5 : 중간에서 제거될 때,
+            previous.next = current.next;
+            return current.data;
+         }
             previous = current;
             current = current.next;
         }
@@ -131,8 +120,8 @@ public class LinkedList<E> implements List<E> {
     }
     public boolean contains(E obj) {
         Node<E> current = head;
-        while(current != null) { // 경계 조건 1
-            if(((Comparable<E>) obj).compareTo(current.data) == null) {
+        while(current != null) {
+            if(((Comparable<E>) obj).compareTo(current.data) == 0) {
                 return true;
             }
             current = current.next;
@@ -146,7 +135,7 @@ public class LinkedList<E> implements List<E> {
         return head.data;
     }
     public E peekLast() {
-        if(tail == null) {
+        if(head == null) {
             return null;
         }
         return tail.data;
