@@ -27,5 +27,91 @@ window, linux에서 VM이 다르므로 이 값이 다르게 설정될 수 있고
 ```java
 java.io.InvalidClassException: com.leedovoca.test2.Human; local class incompatible: stream classdesc serialVersionUID = 1, local class serialVersionUID = 2
 ```
-### 무조건 작성하자.
+### 실습
+```java
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
+public class SerializableTest {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		read();
+	}
+	public static void read() throws IOException, ClassNotFoundException {
+		MemberDto member = null;
+		FileInputStream fi = new FileInputStream("C:\\ssafy\\test.ser");
+		ObjectInputStream in = new ObjectInputStream(fi);
+		
+		member = (MemberDto) in.readObject();
+		System.out.println(member);
+		in.close();
+	}
+	public static void write() throws IOException {
+		MemberDto member = new MemberDto("이동준","서울",23);
+		
+		FileOutputStream fo = new FileOutputStream("C:\\ssafy\\test.ser");
+		ObjectOutputStream out = new ObjectOutputStream(fo);
+		
+		out.writeObject(member);
+		out.close();
+	}
+}
+/* 1번 예외 케이스 [1]번의 serialVersionUID 수정
+Exception in thread "main" java.io.InvalidClassException: MemberDto; local class incompatible: stream classdesc serialVersionUID = 1, local class serialVersionUID = 2
+
+/* 2번 예외 케이스 [2]번의 새로운 필드 추가
+Exception in thread "main" java.io.InvalidClassException: MemberDto; local class incompatible: stream classdesc serialVersionUID = 7169820433892352033, local class serialVersionUID = 6077652754431604139
+	
+*/
+
+/* MemberDto */
+import java.io.Serializable;
+
+public class MemberDto implements Serializable {
+
+    private static final long serialVersionUID = 2L; // [1]
+	private String name;
+	private String addess;
+	private int age;
+	private String nick; // [2]
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddess() {
+		return addess;
+	}
+	public void setAddess(String addess) {
+		this.addess = addess;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+	@Override
+	public String toString() {
+		return "MemberDto [name=" + name + ", addess=" + addess + ", age=" + age + "]";
+	}
+	
+	public MemberDto() {}
+	
+	public MemberDto(String name, String addess, int age) {
+		super();
+		this.name = name;
+		this.addess = addess;
+		this.age = age;
+	}
+	
+	
+}
+
+```
