@@ -15,8 +15,8 @@ public class BuilderPatternTest {
 	public static void main(String[] args) {
 		Student dongjoon = Student.builder()
 				.name("이동준")
-				.age(30)
-				.address("수원시 XXX")
+				.age(28)
+				.address("수원시 영통구")
 				.registTime(LocalDateTime.now())
 				.build();
 		System.out.println(dongjoon);
@@ -29,67 +29,65 @@ class Student {
 	private String address;
 	private LocalDateTime registTime;
 	
-	
+	/* static inner class로 선언 */
 	static class Builder {
-		Student student;
+		private String name;
+		private int age;
+		private String address;
+		private LocalDateTime registTime;
+		
 		Builder() {
-			student = new Student();
 		}
 		public Builder age(int _age) {
-			student.setAge(_age);
+			this.age = _age;
 			return this;
 		}
 		public Builder name(String _name) {
-			student.setName(_name);
+			this.name = _name;
 			return this;
 		}
 		public Builder address(String _addr) {
-			student.setAddress(_addr);
+			this.address = _addr;
 			return this;
 		}
 		public Builder registTime(LocalDateTime now) {
-			student.setRegistTime(now);
+			this.registTime = now;
 			return this;
 		}
 		public Student build() {
-			return student;
+			return new Student(this);
 		}
 	}
 	
+	/* build 방식으로만 생성하는 걸 허용하므로 기본 생성자는 private 처리 합니다. */
+	private Student() {}
+	
+	/* build 직전에 Student 필드로 빌드의 데이터를 옮기기 */
+	private Student(Builder builder) {
+		this.name = builder.name;
+		this.age = builder.age;
+		this.address = builder.address;
+		this.registTime = builder.registTime;
+	}
 	public static Builder builder() {
 		return new Builder();
 	}
 
+	/* 별도의 Setter는 만들지 않기 : 기타 수정을 불허함. */
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public int getAge() {
 		return age;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
-	}
-
 	public String getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
 	public LocalDateTime getRegistTime() {
 		return registTime;
-	}
-
-	public void setRegistTime(LocalDateTime registTime) {
-		this.registTime = registTime;
 	}
 
 	@Override
@@ -100,5 +98,6 @@ class Student {
 
 	
 }
+
 
 ```
