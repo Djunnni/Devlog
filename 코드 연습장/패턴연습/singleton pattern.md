@@ -49,6 +49,29 @@ class Service {
 	}
 	
 }
+/* synchronized 설정 예시
+class Service {
+	private volatile static Service instance;
+	private Service() {
+		System.out.println("Service 인스턴스는 1번 생성됩니다.");
+	}
+	
+	public static Service getInstance() {
+		if(instance == null) {
+			System.out.println("Service 인스턴스가 없어서 생성합니다.");
+			synchronized (Service.class) {
+				if(instance == null) {
+					return instance = new Service();
+				}
+			}
+		}
+		System.out.println("Service인스턴스가 있어 리턴합니다.");
+		return instance;
+	}
+	
+}
+*/
+
 ```
 
 ### 참조
