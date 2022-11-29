@@ -19,11 +19,18 @@ JUnit Platform은 JVM에서 테스트를 시작하기 위한 뼈대 역할을 �
 
 JUnit 3,4에 대한 Test엔진 API를 구현하고 있습니다. JUnit3,4 테스트코드를 실행할 때 사용되며 Vintage 엔진을 포함하고 있다.
 
-|---------|------------|
-| vintage | jupiter.   |
-|---------|------------|
-|       Platform       |
-|----------------------|
+
+<table style="border:1px solid">
+    <tbody>
+        <tr>
+            <td style="border: 1px solid">vintage</td>
+            <td style="border: 1px solid">jupiter</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid; text-align:center" colspan="2">platform</td>
+        </tr>
+    </tbody>
+</table>
 
 ### JUnit 생명주기
 
