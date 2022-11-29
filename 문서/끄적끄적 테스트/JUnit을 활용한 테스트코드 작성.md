@@ -25,3 +25,89 @@ JUnit 3,4에 대한 Test엔진 API를 구현하고 있습니다. JUnit3,4 테스
 |       Platform       |
 |----------------------|
 
+### JUnit 생명주기
+
+@Test : 테스트 코드를 포함한 메서드를 정의합니다.
+
+@BeforeAll: 테스트를 시작하기 전에 호출되는 메서드를 정의합니다.
+
+@BeforeEach: 각 테스트 메서드가 실행되기 전에 동작하는 메서드를 정의합니다.
+
+@AfterAll: 테스트를 종료하면서 호출되는 메서드를 정의합니다.
+
+@AfterEach: 각 테스트 메서드가 종료되면서 호출되는 메서드를 정의합니다.
+
+```java
+package com.springboot.test;
+
+import org.junit.jupiter.api.*;
+
+public class TestLifeCycle {
+
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("## BeforeAll Annotation 호출 ##");
+        System.out.println();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("## AfterAll Annotation 호출 ##");
+        System.out.println();
+    }
+
+    @BeforeEach
+     void beforeEach() {
+        System.out.println("## BeforeEach Annotation 호출 ##");
+        System.out.println();
+    }
+
+    @AfterEach
+     void afterEach() {
+        System.out.println("## AfterEach Annotation 호출 ##");
+        System.out.println();
+    }
+
+    @Test
+    void test1() {
+        System.out.println("## Test1 시작 ##");
+        System.out.println();
+    }
+
+    @Test
+    @DisplayName("Test Case 2!!!")
+    void test2() {
+        System.out.println("## Test2 시작 ##");
+        System.out.println();
+    }
+
+    @Test
+    @Disabled
+    void test3() {
+        System.out.println("## Test3 시작 ##");
+        System.out.println();
+    }
+}
+/*
+결과 ====>
+
+## BeforeAll Annotation 호출 ##
+
+## BeforeEach Annotation 호출 ##
+
+## Test1 시작 ##
+
+## AfterEach Annotation 호출 ##
+
+## BeforeEach Annotation 호출 ##
+
+## Test2 시작 ##
+
+## AfterEach Annotation 호출 ##
+
+
+void com.springboot.test.TestLifeCycle.test3() is @Disabled
+## AfterAll Annotation 호출 ##
+
+*/
+```
