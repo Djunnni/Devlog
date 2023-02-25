@@ -8,8 +8,9 @@ public class StringCheck {
 				"경기도 성남시 분당구 정자동 개발 공장",
 				"서울시 구로구 개봉동"
 		};
-		sc.checkAddress(addresses);
-		sc.checkMatch();
+		// sc.checkAddress(addresses);
+		// sc.checkMatch();
+		sc.checkReplace();
 	}
 	public void checkAddress(String[] addresses) {
 		int startCount = 0;
@@ -44,5 +45,13 @@ public class StringCheck {
 		System.out.println(text.regionMatches(2, compare1, 0, 1));
 		System.out.println(text.regionMatches(5, compare1, 0, 2));
 		System.out.println(text.regionMatches(true, 0, compare2, 0, 4));
+	}
+	public void checkReplace() {
+		String text = "The String class represents character strings.";
+		System.out.println(text.replace('s', 'z'));
+		System.out.println(text);
+		System.out.println(text.replace("tring", "trike"));
+		System.out.println(text.replaceAll(" ", "|"));
+		System.out.println(text.replaceFirst(" ", "|"));
 	}
 }
