@@ -48,4 +48,17 @@ public class StringCompare {
         	System.out.println("text.equals(text3) result is same.");
         }
     }
+    // text4가 text보다 32만큼 앞에 위치해 있다.
+    public void checkCompareTo() {
+        String text = "a";
+        String text2 = "b";
+        String text3 = "c";
+        String text4 = "A";
+
+        System.out.println(text4.compareTo(text));
+        System.out.println(text.compareTo(text4));
+        System.out.println(text.compareTo(text2));
+        System.out.println(text2.compareTo(text));
+        System.out.println(text3.compareTo(text4));
+    }
 }
