@@ -44,3 +44,4 @@ String.valueOf를 기본적으로 감싸고 있다. String.valueOf의 역할은 
 
 1) 내부적으로 출력시에 `Object.toString()`을 바로 호출하는게 아닌 `String.valueOf()`로 `null` 검증을 거친다.
 2) synchronized로 인해 동기적으로 출력된다.
+3) JDK5부터는 내부적으로 + 연산을 수행하면 StringBuilder를 통해 연결되어 String객체를 추가생성하지 않는다.
