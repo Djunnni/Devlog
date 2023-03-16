@@ -92,3 +92,31 @@ default 메서드는 하위 호환성 때문에 도입됐다. 만약에 오픈�
 
 ![date-utils](./IMG/date-util.jpg)
 
+### 병렬 배열 정렬
+
+1. binarySearch()
+2. parallelSort() // 단순 sort는 단일 쓰레드로 수행되지만 parallelSort의 경우 필요에 따라 여러 쓰레드로 실행하며 5,000건 이상부터 효과적임.
+
+### StringJoiner
+
+Java8부터 StringJoiner가 새롭게 추가됐다. 문자열을 처리할 때, 유리하다
+
+```java
+String[] stringArray = new String[] {"hello", "world", "dongjoon", "lee"};
+
+StringJoiner joiner = new StringJoiner(",");
+for(String s : stringArray) {
+    joiner.add(s);
+}
+System.out.println(joiner); // => hello,world,dongjoon,lee
+
+StringJoiner joiner2 = new StringJoiner(",","(",")");
+for(String s : stringArray) {
+    joiner2.add(s);
+}
+System.out.println(joiner2); // => (hello,world,dongjoon,lee)
+
+List<String> stringList = Arrays.asList(stringArray);
+String result = stringList.stream().collect(Collectors.joining(","));
+System.out.println(result); // => hello,world,dongjoon,lee
+```
