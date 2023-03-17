@@ -196,3 +196,58 @@ Predicate<String> predicateStart = (a) -> a.startsWith("GOD");
 * predicateAnd(): 데이터가 두개의 조건에 모두 맞는지 확인
 * predicateOr(): 데이터가 두개의 조건중 하나라도 맞는지 확인
 * predicateNegate(): 데이터가 조건과 다른지 확인
+
+### Stream
+
+Stream은 줄기처럼 흐름이 있는 것 처럼 보인다.
+
+그래서 연결형 데이터자료형과 관련이 있어보이는데, 대표적으로 Array와 Collection이 있다.
+
+Collection에서는 Stream을 구현할 수 있지만 Array에는 구현함수가 없어 대체해서 가능하다.
+
+```java
+List<String> list = new ArrayList<>();
+list.add("daniel");
+list.add("muzi");
+
+list.stream(); // 스트림객체
+
+String[] arr = new String[]{ "daniel", "muzi" };
+List<String> list2 = new ArrayList<>(Arrays.asList(arr));
+
+
+```
+스트림 생성 -> 중개연산 -> 종단연산
+
+중개연산은 0개 이상만 존재하면 됨.
+
+stream()보다 빠르게 연산하고 싶으면 parallelStream()을 활용하면 되나 병렬로 처리하는데 CPU 많이 소비 + 스레드로 처리할지 보장이 안됨. => 웹 프로그램에서는 stream으로 하자.
+
+
+#### 메소드 참조
+
+```java
+forEach(System.out::println); 
+```
+
+더블 콜론을 사용하는 방법이 있는데 이를 Method Reference라고 부른다.
+
+호출방법엔 4가지가 있다.
+
+1) static method 참조
+    ```java
+        ContainingClass::staticMethodName
+    ```
+2) 특정객체의 인스턴스 메서드 참조
+    ```java
+        containingObject::instanceMethodName
+    ```
+3) 특정유형의 임의의 객체에 대한 인스턴스 메서드 참조
+    ```java
+        ContainingType::methodName
+    ```
+4) 생성자 참조
+    ```java
+        ClassName::new
+    ```
+
