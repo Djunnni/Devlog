@@ -1,4 +1,4 @@
-package com.example.orderservice.product;
+package com.example.orderservice.product.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -35,5 +35,9 @@ public class Product {
         this.name = name;
         this.price = price;
         this.discountPolicy = discountPolicy;
+    }
+
+    public int getDiscountPrice() {
+        return discountPolicy.applyDiscount(price);
     }
 }

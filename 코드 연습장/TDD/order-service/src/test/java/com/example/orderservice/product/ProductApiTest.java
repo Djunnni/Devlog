@@ -1,6 +1,7 @@
 package com.example.orderservice.product;
 
 import com.example.orderservice.ApiTest;
+import com.example.orderservice.product.adapter.ProductRepository;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;

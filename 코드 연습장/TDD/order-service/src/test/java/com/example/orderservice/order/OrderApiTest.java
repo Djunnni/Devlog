@@ -1,5 +1,6 @@
 package com.example.orderservice.order;
 
+import com.example.orderservice.order.application.CreateOrderRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
