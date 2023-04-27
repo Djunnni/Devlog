@@ -118,3 +118,14 @@ void com.springboot.test.TestLifeCycle.test3() is @Disabled
 
 */
 ```
+
+### assert를 이용한 명령어
+
+assertThat은 assertJ를 활용하고 있음.
+
+기본 메서드로는 assertNull, assertNotNull, assertTrue, assertAll 등
+
+| assertAll은 동기식으로 발생하는 에러가 상단에서 터지면 아래쪽은 알 수 없음. 따라서 한거번에 알 수 있도록 만들어줌
+| 단, 안에는 람다식으로 쓸 것!
+
+assert 명령어를 수행할 때, message부분은 supplier로 되어있음. 그러므로 message부분에서 연산이 들어간다면 람다로 표현하는게 나음 -> 그 이유는 성공했을 때만 수행되는 로직으로 되어있어서
