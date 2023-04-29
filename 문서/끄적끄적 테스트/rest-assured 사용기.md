@@ -34,3 +34,22 @@ private static ExtractableResponse<Response> 상품등록요청(AddProductReques
     }
 ```
 
+#### 시간 비교를 위한 테스트
+```java
+/**
+ * data : { token, createdAt, expiredAt } 
+ */
+@Test
+public void 토큰갱신() {
+    final var response = 토큰생성요청();
+    String token = response.body().jsonPath().get("data.token");
+    LocalDateTime expiredAt = LocalDateTime.parse(response.body().jsonPath().get("data.expiredAt"));
+
+    final var nextResponse = 토큰갱신요청(token);
+    LocalDateTime nextExpiredAt = LocalDateTime.parse(nextResponse.body().jsonPath().get("data.expiredAt"));
+
+    assertTrue(expiredAt.isBefore(nextExpiredAt), () -> "토큰 갱신 시, expiredAt이 더 늘어납니다.");
+    // 토큰 제거
+    토큰삭제요청(token);
+}
+```
